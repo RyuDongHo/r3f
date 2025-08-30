@@ -5,7 +5,7 @@ import { useTexture } from "@react-three/drei";
 import matCapImg from "@assets/matcap1.png";
 import toneImg from "@assets/fiveTone.jpg";
 
-const TheeElement = () => {
+const LightTest = () => {
   const meshRef = useRef<THREE.Mesh>(null);
   const groupRef = useRef<THREE.Group>(null);
 
@@ -146,4 +146,4 @@ const TheeElement = () => {
   );
 };
 
-export default TheeElement;
+export default LightTest;
