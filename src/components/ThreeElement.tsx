@@ -1,66 +1,60 @@
-import { useFrame, useThree } from "@react-three/fiber";
-import { useControls } from "leva";
-import { useEffect, useRef } from "react";
+import { useTexture } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import { useRef, useEffect } from "react";
 import * as THREE from "three";
+import matcap1Img from "@assets/image.png";
+import fiveToneImg from "../assets/fiveTone.jpg";
 
 const ThreeElement = () => {
-  const boxMeshRef = useRef<THREE.Mesh>(null);
-  const secondBoxMeshRef = useRef<THREE.Mesh>(null);
-  // const { size, gl, scene } = useThree();
-  const { rotationX, x, y, z } = useControls({
-    rotationX: { value: 0, min: -360, max: 360, step: 0.3 },
-    x: { value: 0, min: -10, max: 10, step: 0.1 },
-    y: { value: 0, min: -10, max: 10, step: 0.1 },
-    z: { value: 0, min: -10, max: 10, step: 0.1 },
-  });
-  const { width, height, depth, widthSegment, heightSegment, depthSegment } =
-    useControls({
-      width: { value: 1, min: 0, max: 5, step: 0.1 },
-      height: { value: 1, min: 0, max: 5, step: 0.1 },
-      depth: { value: 1, min: 0, max: 5, step: 0.1 },
-      widthSegment: { value: 1, min: 1, max: 10, step: 1 },
-      heightSegment: { value: 1, min: 1, max: 10, step: 1 },
-      depthSegment: { value: 1, min: 1, max: 10, step: 1 },
-    });
-  const { clock } = useThree();
-  useFrame((state, delta) => {
-    // 박스 회전
-    if (boxMeshRef.current) {
-      boxMeshRef.current.rotation.y += Math.sin(delta);
-      boxMeshRef.current.position.x = Math.cos(clock.getElapsedTime()) * 3;
-      boxMeshRef.current.position.z = Math.sin(clock.getElapsedTime()) * 3;
-    }
-  });
+  const meshRef = useRef<THREE.Mesh>(null);
+  const groupRef = useRef<THREE.Group>(null);
+
+  const matcap1 = useTexture(matcap1Img);
+  const tone = useTexture(fiveToneImg);
+  tone.minFilter = THREE.NearestFilter;
+  tone.magFilter = THREE.NearestFilter;
+
+  useFrame((state, delta) => {});
   useEffect(() => {
-    if (boxMeshRef.current && secondBoxMeshRef.current) {
-      secondBoxMeshRef.current.geometry = boxMeshRef.current.geometry;
+    if (groupRef.current) {
+      groupRef.current.children.forEach((child, index) => {
+        const mesh = child as THREE.Mesh;
+        mesh.geometry = meshRef.current!.geometry;
+        mesh.position.x =
+          index * 3 - (3 * groupRef.current!.children.length) / 2;
+      });
     }
-  }, [boxMeshRef.current?.geometry]);
+  }, []);
   return (
     <>
-      <directionalLight position={[1, 2, 3]} intensity={1.5} />
-      <group position={[3, 0, 0]}>
-        <mesh
-          ref={boxMeshRef}
-          rotation={[rotationX, THREE.MathUtils.degToRad(45), 0]}
-          position={[x, y, z]}
-          scale={[1, 1, 1]}
-        >
-          <boxGeometry
-            args={[
-              width,
-              height,
-              depth,
-              widthSegment,
-              heightSegment,
-              depthSegment,
-            ]}
-          />
-          <meshStandardMaterial color={"blue"} />
+      <directionalLight position={[1, 2, 3]} intensity={3} />
+      <group ref={groupRef} position={[0, 0, 0]}>
+        <mesh ref={meshRef}>
+          <sphereGeometry args={[1, 64, 32]} />
+          <meshBasicMaterial color={"blue"} side={THREE.FrontSide} />
         </mesh>
-
-        <mesh ref={secondBoxMeshRef} position={[0, 0, 0]} scale={[1, 1, 1]}>
-          <meshStandardMaterial wireframe />
+        <mesh>
+          <meshBasicMaterial wireframe color={"red"} />
+        </mesh>
+        <mesh>
+          <meshLambertMaterial color={"green"} />
+        </mesh>
+        <mesh>
+          <meshPhongMaterial
+            color={"purple"}
+            shininess={50}
+            specular={"white"}
+            flatShading={true}
+          />
+        </mesh>
+        <mesh>
+          <meshStandardMaterial color={"green"} />
+        </mesh>
+        <mesh>
+          <meshMatcapMaterial matcap={matcap1} />
+        </mesh>
+        <mesh>
+          <meshToonMaterial gradientMap={tone} />
         </mesh>
       </group>
     </>

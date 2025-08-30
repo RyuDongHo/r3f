@@ -5,7 +5,7 @@ import { OrbitControls } from "@react-three/drei";
 import { useControls } from "leva";
 function App() {
   const { color, gridSize, segment } = useControls({
-    color: "green",
+    color: "white",
     gridSize: { value: 15, min: 1, max: 100, step: 1 },
     segment: { value: 20, min: 2, max: 100, step: 1 },
   });
