@@ -12,7 +12,7 @@ function App() {
   });
   return (
     <>
-      <Canvas camera={{ fov: 80, near: 1, far: 1000, position: [5, 5, 5] }}>
+      <Canvas shadows camera={{ fov: 80, near: 1, far: 1000, position: [5, 5, 5] }}>
         <color attach="background" args={[color]} />
         <LightTest />
         {/* <ThreeElement /> */}

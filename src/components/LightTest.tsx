@@ -40,14 +40,20 @@ const LightTest = () => {
       {/* <directionalLight position={[5, 5, 5]} intensity={1} /> */}
       {/* <ambientLight intensity={0.5} color={"white"}/> */}
       {/* <hemisphereLight args={["blue", "yellow", 5]} /> */}
-      {/* <directionalLight
+      <directionalLight
+        castShadow
         ref={dLight}
         position={[5, 5, 5]}
-        intensity={1}
-        target-position={[2, 0, 0]}
-      /> */}
+        intensity={7}
+        target-position={[0, 0, 0]}
+        shadow-camera-top={10}
+        shadow-camera-bottom={-10}
+        shadow-camera-left={-10}
+        shadow-camera-right={10}
+        shadow-mapSize={[1024, 1024]}
+      />
       {/* <pointLight position={[0, 2, 0]} intensity={5} color={"white"} /> */}
-      <spotLight
+      {/* <spotLight
         ref={sLight}
         color={"white"}
         intensity={70}
@@ -55,20 +61,20 @@ const LightTest = () => {
         distance={100}
         angle={Math.PI / 6}
         penumbra={0.3}
-      />
+      /> */}
 
-      <Environment files={"./src/assets/hdr1.hdr"} background blur={0}/>
+      <Environment files={"./src/assets/hdr1.hdr"} background blur={0} />
 
-      <mesh position={[0, -1, 0]} rotation-x={Math.PI / 2}>
-        <planeGeometry args={[15, 15]} />
-        <meshStandardMaterial color="white" side={THREE.DoubleSide} />
+      <mesh receiveShadow position={[0, -1, 0]} rotation-x={Math.PI / 2}>
+        <planeGeometry args={[25, 25]} />
+        <meshStandardMaterial color="blue" side={THREE.DoubleSide} />
       </mesh>
       <mesh ref={meshRef} position={[0, 0, 0]}>
         <torusKnotGeometry args={[0.5, 0.2]} />
         <meshBasicMaterial visible={false} color="green" />
       </mesh>
       <group ref={groupRef}>
-        <mesh>
+        <mesh castShadow receiveShadow>
           <meshLambertMaterial
             color="red"
             visible={true}
@@ -83,7 +89,7 @@ const LightTest = () => {
           />
         </mesh>
 
-        <mesh>
+        <mesh castShadow receiveShadow>
           <meshPhongMaterial
             color="red"
             visible={true}
@@ -100,7 +106,7 @@ const LightTest = () => {
             flatShading={true}
           />
         </mesh>
-        <mesh>
+        <mesh castShadow receiveShadow>
           <meshStandardMaterial
             color="red"
             visible={true}
@@ -118,7 +124,7 @@ const LightTest = () => {
           />
         </mesh>
 
-        <mesh>
+        <mesh castShadow receiveShadow>
           <meshPhysicalMaterial
             color="#fff"
             visible={true}
@@ -140,7 +146,157 @@ const LightTest = () => {
             // flatShading={true}
           />
         </mesh>
-        <mesh>
+        <mesh castShadow receiveShadow>
+          <meshToonMaterial gradientMap={tone} color="pink" />
+        </mesh>
+        <mesh castShadow receiveShadow>
+          <meshLambertMaterial
+            color="red"
+            visible={true}
+            transparent={false}
+            opacity={1}
+            side={THREE.FrontSide}
+            alphaTest={1}
+            depthTest={true}
+            depthWrite={true}
+            fog={true}
+            emissive={"black"}
+          />
+        </mesh>
+
+        <mesh castShadow receiveShadow>
+          <meshPhongMaterial
+            color="red"
+            visible={true}
+            transparent={false}
+            opacity={1}
+            side={THREE.FrontSide}
+            alphaTest={1}
+            depthTest={true}
+            depthWrite={true}
+            fog={true}
+            emissive={"black"}
+            specular={"#fff"}
+            shininess={40}
+            flatShading={true}
+          />
+        </mesh>
+        <mesh castShadow receiveShadow>
+          <meshStandardMaterial
+            color="red"
+            visible={true}
+            transparent={false}
+            opacity={1}
+            side={THREE.FrontSide}
+            alphaTest={1}
+            depthTest={true}
+            depthWrite={true}
+            fog={true}
+            emissive={"black"}
+            roughness={1}
+            metalness={0}
+            // flatShading={true}
+          />
+        </mesh>
+
+        <mesh castShadow receiveShadow>
+          <meshPhysicalMaterial
+            color="#fff"
+            visible={true}
+            transparent={true}
+            opacity={1}
+            side={THREE.FrontSide}
+            alphaTest={1}
+            depthTest={true}
+            depthWrite={true}
+            fog={true}
+            emissive={"black"}
+            roughness={0}
+            metalness={0}
+            clearcoat={0}
+            clearcoatRoughness={0}
+            transmission={1}
+            thickness={controls.thickness}
+            ior={2.33}
+            // flatShading={true}
+          />
+        </mesh>
+        <mesh castShadow receiveShadow>
+          <meshToonMaterial gradientMap={tone} color="pink" />
+        </mesh>
+        <mesh castShadow receiveShadow>
+          <meshLambertMaterial
+            color="red"
+            visible={true}
+            transparent={false}
+            opacity={1}
+            side={THREE.FrontSide}
+            alphaTest={1}
+            depthTest={true}
+            depthWrite={true}
+            fog={true}
+            emissive={"black"}
+          />
+        </mesh>
+
+        <mesh castShadow receiveShadow>
+          <meshPhongMaterial
+            color="red"
+            visible={true}
+            transparent={false}
+            opacity={1}
+            side={THREE.FrontSide}
+            alphaTest={1}
+            depthTest={true}
+            depthWrite={true}
+            fog={true}
+            emissive={"black"}
+            specular={"#fff"}
+            shininess={40}
+            flatShading={true}
+          />
+        </mesh>
+        <mesh castShadow receiveShadow>
+          <meshStandardMaterial
+            color="red"
+            visible={true}
+            transparent={false}
+            opacity={1}
+            side={THREE.FrontSide}
+            alphaTest={1}
+            depthTest={true}
+            depthWrite={true}
+            fog={true}
+            emissive={"black"}
+            roughness={1}
+            metalness={0}
+            // flatShading={true}
+          />
+        </mesh>
+
+        <mesh castShadow receiveShadow>
+          <meshPhysicalMaterial
+            color="#fff"
+            visible={true}
+            transparent={true}
+            opacity={1}
+            side={THREE.FrontSide}
+            alphaTest={1}
+            depthTest={true}
+            depthWrite={true}
+            fog={true}
+            emissive={"black"}
+            roughness={0}
+            metalness={0}
+            clearcoat={0}
+            clearcoatRoughness={0}
+            transmission={1}
+            thickness={controls.thickness}
+            ior={2.33}
+            // flatShading={true}
+          />
+        </mesh>
+        <mesh castShadow receiveShadow>
           <meshToonMaterial gradientMap={tone} color="pink" />
         </mesh>
       </group>
