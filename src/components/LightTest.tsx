@@ -1,13 +1,15 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { useControls } from "leva";
-import { useTexture } from "@react-three/drei";
+import { Environment, useHelper, useTexture } from "@react-three/drei";
 import matCapImg from "@assets/matcap1.png";
 import toneImg from "@assets/fiveTone.jpg";
 
 const LightTest = () => {
   const meshRef = useRef<THREE.Mesh>(null);
   const groupRef = useRef<THREE.Group>(null);
+  const dLight = useRef<THREE.DirectionalLight>(null!);
+  const sLight = useRef<THREE.SpotLight>(null!);
 
   const controls = useControls({
     thickness: { value: 0.1, min: 0.1, max: 10, step: 0.1 },
@@ -30,32 +32,42 @@ const LightTest = () => {
       }
     }
   }, []);
+  useHelper(dLight, THREE.DirectionalLightHelper, 1, "red");
+  useHelper(sLight, THREE.SpotLightHelper, "blue");
 
   return (
     <>
-      <directionalLight position={[5, 5, 5]} intensity={1} />
+      {/* <directionalLight position={[5, 5, 5]} intensity={1} /> */}
+      {/* <ambientLight intensity={0.5} color={"white"}/> */}
+      {/* <hemisphereLight args={["blue", "yellow", 5]} /> */}
+      {/* <directionalLight
+        ref={dLight}
+        position={[5, 5, 5]}
+        intensity={1}
+        target-position={[2, 0, 0]}
+      /> */}
+      {/* <pointLight position={[0, 2, 0]} intensity={5} color={"white"} /> */}
+      <spotLight
+        ref={sLight}
+        color={"white"}
+        intensity={70}
+        position={[0, 10, 0]}
+        distance={100}
+        angle={Math.PI / 6}
+        penumbra={0.3}
+      />
+
+      <Environment files={"./src/assets/hdr1.hdr"} background blur={0}/>
+
+      <mesh position={[0, -1, 0]} rotation-x={Math.PI / 2}>
+        <planeGeometry args={[15, 15]} />
+        <meshStandardMaterial color="white" side={THREE.DoubleSide} />
+      </mesh>
       <mesh ref={meshRef} position={[0, 0, 0]}>
         <torusKnotGeometry args={[0.5, 0.2]} />
         <meshBasicMaterial visible={false} color="green" />
       </mesh>
       <group ref={groupRef}>
-        <mesh>
-          <meshBasicMaterial color="green" wireframe />
-        </mesh>
-        <mesh>
-          <meshBasicMaterial
-            color="red"
-            visible={true}
-            transparent={false}
-            opacity={1}
-            side={THREE.FrontSide}
-            alphaTest={1}
-            depthTest={true}
-            depthWrite={true}
-            fog={true}
-          />
-        </mesh>
-
         <mesh>
           <meshLambertMaterial
             color="red"
@@ -88,10 +100,6 @@ const LightTest = () => {
             flatShading={true}
           />
         </mesh>
-        <mesh>
-          <meshNormalMaterial />
-        </mesh>
-
         <mesh>
           <meshStandardMaterial
             color="red"
@@ -131,12 +139,6 @@ const LightTest = () => {
             ior={2.33}
             // flatShading={true}
           />
-        </mesh>
-        <mesh>
-          <meshDepthMaterial />
-        </mesh>
-        <mesh>
-          <meshMatcapMaterial matcap={matcap} flatShading={true} />
         </mesh>
         <mesh>
           <meshToonMaterial gradientMap={tone} color="pink" />

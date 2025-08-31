@@ -6,7 +6,7 @@ import { useControls } from "leva";
 import LightTest from "./components/LightTest";
 function App() {
   const { color, gridSize, segment } = useControls({
-    color: "white",
+    color: "black",
     gridSize: { value: 15, min: 1, max: 100, step: 1 },
     segment: { value: 20, min: 2, max: 100, step: 1 },
   });
@@ -25,10 +25,10 @@ function App() {
         />
         {/* 카메라 조작 컨트롤러 */}
 
-        <axesHelper args={[5]} />
+        {/* <axesHelper args={[5]} /> */}
         {/* args = 축의 길이 */}
 
-        <gridHelper args={[gridSize, segment, "red", "black"]} />
+        {/* <gridHelper args={[gridSize, segment, "gray", "white"]} /> */}
         {/* args = [그리드 한 칸의 크기, 그리드의 칸 수, 그리드 색상, 축 색상] */}
       </Canvas>
     </>
