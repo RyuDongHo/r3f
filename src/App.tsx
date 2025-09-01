@@ -4,6 +4,7 @@ import ThreeElement from "./components/ThreeElement";
 import { OrbitControls } from "@react-three/drei";
 import { useControls } from "leva";
 import LightTest from "./components/LightTest";
+import InteractionTest from "./components/InteractionTest";
 function App() {
   const { color, gridSize, segment } = useControls({
     color: "black",
@@ -12,9 +13,13 @@ function App() {
   });
   return (
     <>
-      <Canvas shadows camera={{ fov: 80, near: 1, far: 1000, position: [5, 5, 5] }}>
+      <Canvas
+        shadows
+        camera={{ fov: 80, near: 1, far: 1000, position: [5, 5, 5] }}
+      >
         <color attach="background" args={[color]} />
-        <LightTest />
+        <InteractionTest />
+        {/* <LightTest /> */}
         {/* <ThreeElement /> */}
 
         <OrbitControls
